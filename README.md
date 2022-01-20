@@ -6,7 +6,7 @@ Visualforce has support for referencing custom labels on the fly at runtime(dyna
 
 # The basics - Custom Label Referencing
 Both visualforce and LWC allow for the referencing of custom labels. In visualforce, the following two approaches are most widely used:
-##### Visualforce
+### Visualforce
 ___
 Markup
 ```html
@@ -32,7 +32,7 @@ public with sharing class ControllerClass {
     }
 }
 ```
-##### LWC
+### LWC
 Markup
 ```html
 <template>
