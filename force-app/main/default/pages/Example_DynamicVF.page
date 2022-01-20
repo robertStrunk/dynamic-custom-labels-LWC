@@ -1,0 +1,10 @@
+<apex:page
+    controller="DynamicVFController"
+    sidebar="false"
+    showChat="false"
+    showHeader="false"
+    applyBodyTag="false"
+    applyHtmlTag="false"
+    contentType="application/json"
+    language="{!$CurrentPage.parameters.lang}">{!jsonStr}
+</apex:page>
