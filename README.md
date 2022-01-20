@@ -65,7 +65,7 @@ Unfortunately there is no straight forward way to enable LWC components to dynam
 1. **Import All Labels**
    - Description - This approach is to create a LWC component that just imports all custom labels by name. The component would expose an API of some sort to allow other components to access labels by API name.
    - Pros
-     - All labels would be imported and readily accessible when needed.
+     - Dynamic referencing achieved.
      - Hard references to each label would be tied to the code which helps admins know where and if the label is being used.
      - Translation functionality is preserved.
    - Cons
@@ -74,29 +74,30 @@ Unfortunately there is no straight forward way to enable LWC components to dynam
      - Keeping the component up to date would be almost a futile effort in some orgs.
      - Performance hits would result from importing large numbers of labels that may not even be needed.
 2. **Dynamic Visualforce**
-   - Description - Since Visualforce expression syntax allows for dynamic referencing of custom labels, [dynamic Visualforce](https://developer.salesforce.com/docs/atlas.en-us.pages.meta/pages/pages_dynamic_vf_components_intro.htm) could be leveraged in order to resolve label names on the fly in Apex. All that would be needed is for the LWC to call an apex class which in turn instantiates a Visualforce page with a controller. The page's apex controller could then interrogate the URL parameters and create `<apex:outputText>` for each label name in the URL and then create a JSON string of label name's to label values. The page content type would need to be set to `application/json` with the html and body tags turned off (as well as some other page attributes). The apex class that instantiated the page would just need to perform a `Pagereference.getContent().toString()` call to get the string representation of the page. That string could then be returned to the LWC which would allow the string to be parsed into a JSON object. The following links are examples of how that could be implemented.
+   - Description - Since Visualforce expression syntax allows for dynamic referencing of custom labels, [dynamic Visualforce](https://developer.salesforce.com/docs/atlas.en-us.pages.meta/pages/pages_dynamic_vf_components_intro.htm) could be leveraged in order to resolve label names on the fly in Apex. All that would be needed is for the LWC to call an apex class which in turn instantiates a Visualforce page with a controller. The page's apex controller could then interrogate the URL parameters and create `<apex:outputText>` components for each label name in the URL. All that would be needed next is to create a JSON string of label name's to label values. The page content type would need to be set to `application/json` with the html and body tags turned off (as well as some other page attributes). The apex class that instantiated the page would just need to perform a `Pagereference.getContent().toString()` call to get the string representation of the page. That string could then be returned to the LWC which would allow the string to be parsed into a JSON object. The following links are examples of how that could be implemented.
      - [LWC Import Method](https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/classes/LWCApexController.cls)
      - [Visualforce Page Markup](https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/pages/Example_DynamicVF.page)
      - [Visualforce Page Controller](https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/classes/DynamicVFController.cls)
    - Pros
-     - Allows the LWC to fetch the custom labels dynamically at runtime with a single server call.
+     - Dynamic referencing achieved.
      - Translation functionality is preserved.
    - Cons
      - There is a limit to length a URL can be (4096 chars).
      - Nonconventional/counterintuitive use of a VF page so it may be confusing to some devs.
 3. **Aura Wrapper**
-   - Description - HERE
+   - Description - Aura components have a little more support when it comes to dynamically referencing custom labels. That support falls somewhere in between the levels of Visualforce and LWC. Unlike LWC, Aura does have a loose equivalent of Visualforce's global variable `$Label`. It comes in the form of the Global value provider `$Label`. This global value provider can be accessed in component markup via expression syntax `{!$Label.namespace.labelName}` or in the javascript via the Aura javascript API `$A.get("$Label.namespace.labelName")`. If, however, the label is not added as a dependency in the component definition then the `$A.get()` call will not return the desired value. To get around this you can instead use a `$A.getReference()` call and the Aura framework will go to the server to fetch the label value if it is not readily accessible in the client. If you have one or two labels that is not a big deal but as your need grows, so too does the cost. So the solution here would be to encapsulate the LWC component with an Aura component and wire them up in a way to allow the Aura component to serve the LWC component with label values.
    - Pros
-     - One
-     - Two
+     - Dynamic referencing achieved.
+     - Translation functionality is preserved.
    - Cons
-     - One
-     - Two
+     - Not scalable with large quantities of labels.
+     - Requires a server call per label (hence the scalability reference above)
 4. **Convert Custom Labels to Record Data or Metadata**
-   - Description - A solution could be crafted by converting the custom labels into record data, custom setting data, or custom metadata. To accomplish this you would just need to add a coupe fields to your desired data structure. One field would be for the "API Name" of the label and the other would be for the "Value" of the label.
+   - Description - A solution could be crafted by converting the custom labels into record data, custom setting data, or custom metadata. To accomplish this you would just need to add a couple fields to your desired data structure. One field would be for the "API Name" of the label and the other would be for the "Value" of the label.
    - Pros
+     - Dynamic referencing achieved (partially).
      - Would preserve the ability for text to be changed by admins in an org with no code changes needed.
    - Cons
      - Basically defeats the purpose of using custom labels in a lot of scenarios.
      - Loss of translation functionality.
-     - Record data would need to be seeded in in sandboxes on refresh.
+     - Record data would need to be seeded in sandboxes on refresh.
