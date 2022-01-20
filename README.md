@@ -75,9 +75,9 @@ Unfortunately there is no straight forward way to enable LWC componnents to dyna
      - Performance hits would result from importing large numbers of labels that may not even be needed.
 2. Dynamic Visualforce
    - Description - Since Visualforce expression syntax allows for dynamic referencing of custom labels, [dynamic visualforce](https://developer.salesforce.com/docs/atlas.en-us.pages.meta/pages/pages_dynamic_vf_components_intro.htm) could be leveraged in order to resolve label names on the fly in Apex. All that would be needed is for the LWC to call an apex class which in turn instantiates a visualforce page with a controller. The page's apex controller could then interrogate the URL parameters and create `<apex:outputText>` for each label name in the URL and then create a JSON string of label name's to label values. The page content type would need to be set to `application/json` with the html and body tags turned off (as well as some other page attributes). The apex class that instantiated the page would just need to perform a `Pagereference.getContent().toString()` call to get the string representation of the page. That string could then be returned to the LWC which would allow the string to be parsed into a JSON object. The following links are examples of how that could be implemented.
-     - <a target="_blank" href="https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/classes/LWCApexController.cls">LWC Import Method</>
-     - <a target="_blank" href="https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/pages/Example_DynamicVF.page">Visualforce Page Markup</a>
-     - <a target="_blank" href="https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/classes/DynamicVFController.cls">Visualforce Page Controller</a>
+     - [LWC Import Method](https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/classes/LWCApexController.cls)
+     - [Visualforce Page Markup](https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/pages/Example_DynamicVF.page)
+     - [Visualforce Page Controller](https://github.com/robertStrunk/dynamic-custom-labels-LWC/blob/master/force-app/main/default/classes/DynamicVFController.cls)
    - Pros
      - Allows the LWC to fetch the custom labels dynamically at runtime with a single server call.
      - Translation functionality is preserved.
