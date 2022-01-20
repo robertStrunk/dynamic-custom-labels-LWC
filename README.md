@@ -36,7 +36,7 @@ public with sharing class ControllerClass {
 Markup
 ```html
 <template>
-     <!-- Approach #1 - Static Reference -->
+    <!-- Approach #1 - Static Reference -->
     {label.greeting}
 
     <!-- Approach #2 - Dynamic Reference -->
