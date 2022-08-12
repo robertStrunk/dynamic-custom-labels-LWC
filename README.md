@@ -1,5 +1,5 @@
 # Purpose
-This repo highlights an issue that my arise when converting Visualforce to LWC and proposes a few paths forward.
+This repo highlights an issue that may arise when converting Visualforce to LWC and proposes a few paths forward.
 
 # Issue Description
 Visualforce has support for referencing custom labels on the fly at runtime(dynamic) and LWC does not. If you need to convert a Visualforce page that uses dynamic custom label references, you need to get creative to make it happen. There are a few solutions that can be used to bridge the gap.
@@ -101,3 +101,5 @@ Unfortunately there is no straight forward way to enable LWC components to dynam
      - Basically defeats the purpose of using custom labels in a lot of scenarios.
      - Loss of translation functionality.
      - Record data would need to be seeded in sandboxes on refresh.
+     
+I have implemented Option 2 and it can be referenced in this repo under [dynamic-custom-labels-LWC/force-app/main/default](https://github.com/robertStrunk/dynamic-custom-labels-LWC/tree/master/force-app/main/default)
